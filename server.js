@@ -1,3 +1,7 @@
+const userRoutes = require('./routes/userRoutes');
+const catwayRoutes = require('./routes/catwayRoutes');
+const reservationRoutes = require('./routes/reservationRoutes');
+
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
@@ -14,6 +18,10 @@ mongoose.connect(process.env.MONGO_URI)
 app.get('/', (req, res) => {
     res.send('Serveur Port Russell OKKKKKK avec MongoDB');
 });
+
+app.use('/users', userRoutes);
+app.use('/catways', catwayRoutes);
+app.use('/reservations', reservationRoutes);
  
 app.listen(PORT, () => {
     console.log(`Serveur démarré avec succès sur http://localhost:${PORT}`);
