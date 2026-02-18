@@ -1,0 +1,3 @@
+Get-Service MongoDB
+Start-Service MongoDB
+
