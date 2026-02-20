@@ -13,7 +13,9 @@ router.get('/', async (req, res) => {
  
 router.get('/:id', async (req, res) => {
   try {
-    const catway = await Catway.findById(req.params.id);
+    const catway = await Catway.findOne({ 
+      catwayNumber: req.params.id 
+    });
     if (!catway) return res.status(404).json({ message: 'Catway introuvable' });
     res.json(catway);
   } catch (err) {
@@ -22,9 +24,8 @@ router.get('/:id', async (req, res) => {
 });
  
 router.post('/', async (req, res) => {
-  const { name, location, capacity } = req.body;
-  const catway = new Catway({ name, location, capacity });
   try {
+    const catway = new Catway(req.body);
     const newCatway = await catway.save();
     res.status(201).json(newCatway);
   } catch (err) {
@@ -34,9 +35,9 @@ router.post('/', async (req, res) => {
  
 router.put('/:id', async (req, res) => {
   try {
-    const updatedCatway = await Catway.findByIdAndUpdate(
-      req.params.id,
-      req.body,
+    const updated = await Catway.findOneAndUpdate(
+      { catwayNumber: req.params.id },
+      { catwayState: req.body.catwayState },
       { new: true, runValidators: true }
     );
     if (!updatedCatway) return res.status(404).json({ message: 'Catway introuvable' });
@@ -48,7 +49,9 @@ router.put('/:id', async (req, res) => {
  
 router.delete('/:id', async (req, res) => {
   try {
-    const deletedCatway = await Catway.findByIdAndDelete(req.params.id);
+    const deleted = await Catway.findOneAndDelete({ 
+      catwayNumber: req.params.id 
+    });
     if (!deletedCatway) return res.status(404).json({ message: 'Catway introuvable' });
     res.json({ message: 'Catway supprimé' });
   } catch (err) {

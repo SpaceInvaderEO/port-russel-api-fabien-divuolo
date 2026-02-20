@@ -1,0 +1,82 @@
+
+### Lister tous les utilisateurs
+GET http://localhost:3000/users
+
+### Créer un utilisateur
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "username": "personnagedetest",
+  "email": "personnagedetst@test.com",
+  "password": "Hakunamatata"
+}
+
+### Récupérer un utilisateur par email
+GET http://localhost:3000/users/user@test.com
+
+### Modifier un utilisateur
+PUT http://localhost:3000/users/user@test.com
+Content-Type: application/json
+
+{
+  "username": "userModifié"
+}
+
+### Supprimer un utilisateur
+DELETE http://localhost:3000/users/user@test.com
+
+### Lister tous les catways
+GET http://localhost:3000/catways
+
+### Créer un catway
+POST http://localhost:3000/catways
+Content-Type: application/json
+
+{
+  "catwayNumber": 101,
+  "catwayType": "long",
+  "catwayState": "Disponible"
+}
+
+### 
+GET http://localhost:3000/catways/101
+
+### 
+PUT http://localhost:3000/catways/101
+Content-Type: application/json
+
+{
+  "catwayState": "Occupé"
+}
+
+### 
+DELETE http://localhost:3000/catways/101
+
+### 
+GET http://localhost:3000/reservations
+
+### 
+POST http://localhost:3000/reservations
+Content-Type: application/json
+
+{
+  "user": "6995d1fc4c7dabee471c5282",
+  "catway": "64f3d2b9ecf1c6b10ff97d3d",
+  "date": "2026-02-25T10:00:00.000Z",
+  "status": "pending"
+}
+
+### 
+GET http://localhost:3000/reservations/64f3d2b9ecf1c6b10ff97d3d
+
+### 
+PUT http://localhost:3000/reservations/64f3d2b9ecf1c6b10ff97d3d
+Content-Type: application/json
+
+{
+  "status": "confirmée"
+}
+
+### 
+DELETE http://localhost:3000/reservations/64f3d2b9ecf1c6b10ff97d3d

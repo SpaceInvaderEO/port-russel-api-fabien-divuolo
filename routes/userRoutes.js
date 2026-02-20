@@ -11,10 +11,12 @@ router.get('/', async (req, res) => {
   }
 });
  
-router.get('/:id', async (req, res) => {
+router.get('/:email', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ message: 'User introuvable' });
+    const user = await User.findOne({ 
+      email: req.params.email 
+    });
+    if (!user) return res.status(404).json({ message: 'Utilisateur introuvable' });
     res.json(user);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -22,9 +24,8 @@ router.get('/:id', async (req, res) => {
 });
  
 router.post('/', async (req, res) => {
-  const { username, email, password } = req.body;
-  const user = new User({ username, email, password });
   try {
+    const user = new User(req.body);
     const newUser = await user.save();
     res.status(201).json(newUser);
   } catch (err) {
@@ -32,25 +33,27 @@ router.post('/', async (req, res) => {
   }
 });
  
-router.put('/:id', async (req, res) => {
+router.put('/:email', async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
+    const updated = await User.findOneAndUpdate(
+      { email: req.params.email },
       req.body,
       { new: true, runValidators: true }
     );
-    if (!updatedUser) return res.status(404).json({ message: 'User introuvable' });
-    res.json(updatedUser);
+    if (!updated) return res.status(404).json({ message: 'Utilisateur introuvable' });
+    res.json(updated);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
  
-router.delete('/:id', async (req, res) => {
+router.delete('/:email', async (req, res) => {
   try {
-    const deletedUser = await User.findByIdAndDelete(req.params.id);
-    if (!deletedUser) return res.status(404).json({ message: 'User introuvable' });
-    res.json({ message: 'User supprimé' });
+    const deleted = await User.findOneAndDelete({
+      email: req.params.email
+    });
+    if (!deleted) return res.status(404).json({ message: 'Utilisateur introuvable' });
+    res.json({ message: 'Utilisateur supprimé' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
